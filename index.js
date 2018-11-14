@@ -23,6 +23,7 @@ var natives = process.binding('natives');
  * @param {String|Object} content - File's content or AST
  * @param {Object} [options]
  * @param {String} [options.type] - The type of content being passed in. Useful if you want to use a non-js detective
+ * @param {Object} [options.walkerOptions?] - The options for the `node-source-walk`
  * @return {String[]}
  */
 function precinct(content, options) {
@@ -41,7 +42,7 @@ function precinct(content, options) {
 
   // We assume we're dealing with a JS file
   if (!type && typeof content !== 'object') {
-    var walker = new Walker();
+    var walker = new Walker(options.walkerOptions);
 
     try {
       // Parse once and distribute the AST to all detectives
