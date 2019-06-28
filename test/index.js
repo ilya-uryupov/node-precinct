@@ -110,6 +110,13 @@ describe('node-precinct', function() {
     assert.deepEqual(result, expected);
   });
 
+  it('grabs dependencies of typescript tsx files', function() {
+    var result = precinct(read('module.tsx'), 'tsx');
+    var expected = ['./none'];
+
+    assert.deepEqual(result, expected);
+  });
+
   it('does not grabs dependencies of typescript modules with syntax errors', function() {
     var result = precinct(read('typescriptWithError.ts'));
     assert(result.length === 0);
@@ -152,6 +159,29 @@ describe('node-precinct', function() {
   });
 
   describe('paperwork', function() {
+    it('grabs dependencies of jsx files', function() {
+      var result = precinct.paperwork(__dirname + '/module.jsx');
+      var expected = ['./es6NoImport'];
+
+      assert.deepEqual(result, expected);
+    });
+
+    it('uses fileSystem from options if provided', function() {
+      var fsMock = {
+        readFileSync: function(path, encoding) {
+          assert.equal(path, '/foo.js');
+          return 'var assert = require("assert");';
+        }
+      };
+
+      var options = {
+        fileSystem: fsMock
+      };
+      var results = precinct.paperwork('/foo.js', options);
+      assert.equal(results.length, 1);
+      assert.equal(results[0], 'assert');
+    });
+
     it('returns the dependencies for the given filepath', function() {
       assert.ok(precinct.paperwork(__dirname + '/es6.js').length);
       assert.ok(precinct.paperwork(__dirname + '/styles.scss').length);
