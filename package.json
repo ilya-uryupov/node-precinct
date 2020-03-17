@@ -4,8 +4,9 @@
   "description": "Unleash the detectives",
   "main": "index.js",
   "scripts": {
-    "test1": "jscs index.js test/index.js",
-    "test2": "mocha test/index.js"
+    "jscs": "jscs index.js test/index.js",
+    "test:run": "mocha test/index.js",
+    "test": "run-s jscs test:run"
   },
   "bin": {
     "precinct": "bin/cli.js"
@@ -41,7 +42,7 @@
     "detective-es6": "^2.0.0",
     "detective-less": "^1.0.2",
     "detective-postcss": "^3.0.0",
-    "detective-sass": "^3.0.0",
+    "detective-sass": "git+https://github.com/ilya-uryupov/node-detective-sass.git#hs/v3.0.1",
     "detective-scss": "^2.0.0",
     "detective-stylus": "^1.0.0",
     "detective-typescript": "^5.1.1",
@@ -52,6 +53,7 @@
     "jscs": "~3.0.7",
     "jscs-preset-mrjoelkemp": "~2.0.0",
     "mocha": "^5.2.0",
+    "npm-run-all": "^4.1.5",
     "rewire": "^4.0.1",
     "sinon": "^6.2.0"
   }

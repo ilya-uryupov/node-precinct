@@ -89,6 +89,11 @@ describe('node-precinct', function() {
     assert.deepEqual(sass, ['_foo']);
   });
 
+  it('grabs dependencies of sass files with @use', function() {
+    var sass = precinct(read('styles-use.sass'), 'sass');
+    assert.deepEqual(sass, ['_foo']);
+  });
+
   it('grabs dependencies of stylus files', function() {
     var result = precinct(read('styles.styl'), 'stylus');
     var expected = ['mystyles', 'styles2.styl', 'styles3.styl', 'styles4'];
